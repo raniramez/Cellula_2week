@@ -29,6 +29,7 @@ Example:
 ## 📂 Project Structure
 
 caption_classify/
+
 ├─ imagecaption.py # BLIP captioning
 
 ├─ classifier.py # DistilBERT classifier (with optional LoRA)

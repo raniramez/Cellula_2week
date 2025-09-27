@@ -1,38 +1,75 @@
 # Caption + Classify App
 
-This app does 3 things:
-1. Captions an image using BLIP (image → text).
-2. Classifies text (either your own input or the generated caption) with a DistilBERT model (fine-tuned with LoRA).
-3. Saves everything to a CSV file (Data.csv) so you can view all past inputs and predictions.
+This project combines **image captioning** and **text classification** in a Streamlit app.
+
+- Upload an image → BLIP generates a caption.  
+- Enter text or use the caption → DistilBERT (with optional LoRA) classifies it.  
+- Results are saved automatically to **db.csv** (a log of all user inputs and predictions).  
+- You can also keep a labeled dataset (**Data.csv**) for training or retraining the classifier.
 
 ---
 
-## How to Run
+## 📂 Project Structure
 
-### Local
+caption_classify/  
+├─ imagecaption.py          # BLIP captioning  
+├─ classifier.py            # DistilBERT classifier (with optional LoRA)  
+├─ train_distilbert_lora.py # Fine-tune DistilBERT with LoRA  
+├─ streamlit_app.py         # Streamlit UI  
+├─ Data.csv                 # Training dataset (text + label)  
+├─ db.csv                   # Auto-updating log of all app submissions  
+├─ requirements.txt         # Dependencies  
+└─ README.md  
+
+---
+
+## 🚀 How to Run Locally
+
+Make sure you have **Python 3.10+** installed.
+
+Create and activate a virtual environment:
+
 python -m venv .venv  
-source .venv/bin/activate   # Windows: .venv\Scripts\activate  
+source .venv/bin/activate       # On Windows: .venv\Scripts\activate  
+
+Install dependencies:
 
 pip install -r requirements.txt  
 
+Run the app:
+
 streamlit run streamlit_app.py  
 
-Open the link Streamlit gives you (http://localhost:8501).
+Open the link shown in the terminal (usually http://localhost:8501).
 
 ---
 
-### Google Colab
+## ☁️ How to Run on Google Colab
+
+Install the requirements:
+
 !pip install -r /content/caption_classify/requirements.txt  
+
+Start the Streamlit server on port 8501:
 
 !pkill -f streamlit || true  
 !python -m streamlit run /content/caption_classify/streamlit_app.py \  
     --server.port 8501 --server.address 0.0.0.0 >/content/st_log.txt 2>&1 &  
 
-If you want a public link, install pyngrok and connect your ngrok token.
+If you want a public link, install pyngrok and connect with your token:
+
+!pip install pyngrok  
+from pyngrok import ngrok  
+ngrok.set_auth_token("YOUR_NGROK_TOKEN")  
+print("Public URL:", ngrok.connect(8501).public_url)  
 
 ---
 
-## Training (Optional)
+## 🎓 Training DistilBERT with LoRA
+
+Use **Data.csv** as your labeled dataset (columns: `text`, `label`).
+
+Run:
 
 python train_distilbert_lora.py \  
   --train_csv Data.csv \  
@@ -40,13 +77,14 @@ python train_distilbert_lora.py \
   --label_col label \  
   --output_dir outputs_distilbert_lora  
 
-The classifier will then load the LoRA weights from outputs_distilbert_lora/.
+The trained adapter will be saved in outputs_distilbert_lora/.  
+The classifier automatically loads it if available.
 
 ---
 
-## Requirements
+## 📦 Requirements
 
-See requirements.txt:
+Main dependencies (see requirements.txt):
 
 streamlit  
 pillow  
@@ -61,16 +99,17 @@ peft
 
 ---
 
-## Notes
+## 📝 Notes
 
-imagecaption.py → handles BLIP captioning.  
-classifier.py → handles text classification.  
-Data.csv → stores all inputs + predictions.  
-streamlit_app.py → the UI.  
+- Data.csv → for training (you can add or edit labeled examples).  
+- db.csv → auto-updated by the app whenever a user submits input (stores text/caption, classification, and timestamp).  
+- imagecaption.py → loads BLIP for image captioning.  
+- classifier.py → loads DistilBERT (with LoRA if present).  
+- streamlit_app.py → the Streamlit interface.  
 
 ---
 
-## Suggested .gitignore
+## 🔒 Suggested .gitignore
 
 __pycache__/  
 *.pt  
@@ -78,3 +117,15 @@ __pycache__/
 *.ckpt  
 st_log.txt  
 outputs_distilbert_lora/  
+
+---
+
+## ✅ Quick Summary
+
+1. Run the app with Streamlit.  
+2. Upload an image or enter text.  
+3. Get caption + classification.  
+4. Every run is saved in db.csv.  
+5. Use Data.csv if you want to fine-tune DistilBERT.  
+
+That’s it!

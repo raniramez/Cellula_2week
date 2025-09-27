@@ -3,7 +3,7 @@
 This app does 3 things:
 1. Captions an image using **BLIP** (image → text).
 2. Classifies text (either your own input or the generated caption) with a **DistilBERT** model (fine-tuned with LoRA).
-3. Saves everything to a **CSV file** (`Data.csv`) so you can view all past inputs and predictions.
+3. Saves everything to a **CSV file** (`db.csv`) so you can view all past inputs and predictions.
 
 ---
 

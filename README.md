@@ -15,13 +15,13 @@ Add images or GIFs of the app here (recommended size: ~800px wide).
 
 Example:
 
-![Upload Example](assets/Screenshot%2025-09-27%030811.png)  
+![Upload Example](assets/image.png)  
 *Uploading an image to generate a caption.*
 
-![Classification Example](assets/Screenshot%2025-09-27%031145.png)  
+![Classification Example](assets/text.png)  
 *Text classification result shown in the app.*
 
-![Database Example](assets/Screenshot%2025-09-27%031151.png)  
+![Database Example](assets/db.png)  
 *Viewing auto-saved predictions in db.csv.*
 
 ---

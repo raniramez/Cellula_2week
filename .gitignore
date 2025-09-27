@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+/tmp_upload.*
+db.csv
+/.ipynb_checkpoints
+# model weights & caches
+*.bin
+*.safetensors
+*.pt
+huggingface/
+cache/

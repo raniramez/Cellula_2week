@@ -30,12 +30,19 @@ Example:
 
 caption_classify/
 ├─ imagecaption.py # BLIP captioning
+
 ├─ classifier.py # DistilBERT classifier (with optional LoRA)
+
 ├─ train_distilbert_lora.py # Fine-tune DistilBERT with LoRA
+
 ├─ streamlit_app.py # Streamlit UI
+
 ├─ Data.csv # Training dataset (text + label)
+
 ├─ db.csv # Auto-updating log of all app submissions
+
 ├─ requirements.txt # Dependencies
+
 └─ README.md
 
 
@@ -83,12 +90,12 @@ If you want a public link, install pyngrok and connect with your token:
 ```bash
 !pip install pyngrok
 ```
-#
+```bash
 
 from pyngrok import ngrok
 ngrok.set_auth_token("YOUR_NGROK_TOKEN")
 print("Public URL:", ngrok.connect(8501).public_url)
-#
+```
 
 🎓 Training DistilBERT with LoRA
 

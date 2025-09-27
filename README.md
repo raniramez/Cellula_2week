@@ -15,13 +15,13 @@ Add images or GIFs of the app here (recommended size: ~800px wide).
 
 Example:
 
-![Upload Example](assets/"Screenshot 2025-09-27 030811.png")  
+![Upload Example](assets/Screenshot%2025-09-27%030811.png)  
 *Uploading an image to generate a caption.*
 
-![Classification Example](assets/Screenshot 2025-09-27 031145.png)  
+![Classification Example](assets/Screenshot%2025-09-27%031145.png)  
 *Text classification result shown in the app.*
 
-![Database Example](assets/Screenshot 2025-09-27 031151.png)  
+![Database Example](assets/Screenshot%2025-09-27%031151.png)  
 *Viewing auto-saved predictions in db.csv.*
 
 ---
@@ -63,3 +63,98 @@ streamlit run streamlit_app.py
 ```
 Open the link shown in the terminal (usually http://localhost:8501
 )
+
+☁️ How to Run on Google Colab
+
+Install the requirements:
+```bash
+!pip install -r /content/caption_classify/requirements.txt
+```
+
+Start the Streamlit server on port 8501:
+
+```bash
+!pkill -f streamlit || true
+!python -m streamlit run /content/caption_classify/streamlit_app.py \
+    --server.port 8501 --server.address 0.0.0.0 >/content/st_log.txt 2>&1 &
+```
+
+If you want a public link, install pyngrok and connect with your token:
+```bash
+!pip install pyngrok
+```
+#
+
+from pyngrok import ngrok
+ngrok.set_auth_token("YOUR_NGROK_TOKEN")
+print("Public URL:", ngrok.connect(8501).public_url)
+#
+
+🎓 Training DistilBERT with LoRA
+
+Use Data.csv as your labeled dataset (columns: text, label).
+
+Run:
+```bash
+python train_distilbert_lora.py \
+  --train_csv Data.csv \
+  --text_col text \
+  --label_col label \
+  --output_dir outputs_distilbert_lora
+```
+The trained adapter will be saved in outputs_distilbert_lora/.
+The classifier automatically loads it if available.
+
+📦 Requirements
+
+Main dependencies (see requirements.txt):
+
+streamlit
+pillow
+transformers
+accelerate
+bitsandbytes
+torch
+scikit-learn
+pandas
+numpy
+peft
+
+
+📝 Notes
+
+Data.csv → for training (you can add or edit labeled examples).
+
+db.csv → auto-updated by the app whenever a user submits input (stores text/caption, classification, and timestamp).
+
+imagecaption.py → loads BLIP for image captioning.
+
+classifier.py → loads DistilBERT (with LoRA if present).
+
+streamlit_app.py → the Streamlit interface.
+
+🔒 Suggested .gitignore
+
+```bash
+__pycache__/
+*.pt
+*.bin
+*.ckpt
+st_log.txt
+outputs_distilbert_lora/
+```
+
+✅ Quick Summary
+
+```bash
+# 1. Install requirements
+pip install -r requirements.txt
+
+# 2. Run the app
+streamlit run streamlit_app.py
+
+# 3. Upload an image or enter text
+# 4. Get caption + classification
+# 5. Every run is saved in db.csv
+# 6. Use Data.csv if you want to fine-tune DistilBERT
+```

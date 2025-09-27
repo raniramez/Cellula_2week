@@ -1,0 +1,5 @@
+timestamp,type,content,label,score
+2025-09-27T01:57:29,text,You're an amazing person,Safe,0.6426627039909363
+2025-09-27T01:57:39,text,I will steal this gold watch,Violent Crimes,0.37145471572875977
+2025-09-27T02:00:59,caption,a person holding a knife,unsafe,0.6669766306877136
+2025-09-27T02:08:10,caption,a person holding a knife,unsafe,0.6669766306877136
